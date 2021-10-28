@@ -11,7 +11,7 @@ import {
 import { AuthService } from './auth.service';
 import { Request, Response } from 'express';
 import { LoginUserDto } from './dto/login-user.dto';
-import { CreateUserDto } from '../users/dto/create-user.dto';
+import { CreateUserDto } from '../entities/users/dto/create-user.dto';
 import { LoginStatus } from './interface/login-status.interface';
 import * as dotenv from 'dotenv';
 import { AuthGuard } from '@nestjs/passport';
@@ -23,7 +23,7 @@ export class AuthController {
 
   @Post('register')
   async register(@Body() data: CreateUserDto) {
-    return this.authService.register(data);
+    return this.authService.register(data, ['ROLE_MANAGER']);
   }
 
   @Post('login')

@@ -9,9 +9,10 @@ import {
 import { ApiProperty } from '@nestjs/swagger';
 import { Qrcode } from '../qrcodes/qrcode.entity';
 import { Place } from '../place/place.entity';
+import { Timestamp } from '../../utils/timestamp';
 
 @Entity('Users')
-export class User {
+export class User extends Timestamp {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -40,10 +41,6 @@ export class User {
     unique: true,
   })
   phone: string;
-
-  @ApiProperty()
-  @CreateDateColumn({ nullable: false })
-  register_date: Date;
 
   @ApiProperty()
   @Column({

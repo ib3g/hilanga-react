@@ -5,15 +5,16 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from '../users/user.entity';
+import { User } from '../entities/users/user.entity';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
-import { CreateUserDto } from '../users/dto/create-user.dto';
+import { CreateUserDto } from '../entities/users/dto/create-user.dto';
 import { toUserDto } from '../mapper';
-import { UserDto } from '../users/dto/user.dto';
+import { UserDto } from '../entities/users/dto/user.dto';
 import { RegistrationStatus } from './interface/registration-status.interface';
 import { JwtPayload } from './interface/jwt-payload.interface';
+import slugify from 'slugify';
 
 @Injectable()
 export class AuthService {
@@ -22,7 +23,15 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async register(data: CreateUserDto): Promise<RegistrationStatus> {
+  async register(
+    data: CreateUserDto,
+    additionalRoles?: string[],
+    addManager?: boolean,
+  ): Promise<RegistrationStatus> {
+    // init proprieties
+    additionalRoles = additionalRoles?.length ? additionalRoles : [];
+    addManager = addManager ? addManager : false;
+
     let status: RegistrationStatus = {
       success: true,
       message: 'user registered',
@@ -45,12 +54,21 @@ export class AuthService {
       const hashPassword = await bcrypt.hash(data.password, 12);
       let createdUser = { ...data };
       createdUser.password = hashPassword;
+      additionalRoles.push('ROLE_USER');
+      createdUser.role = additionalRoles;
+      createdUser.slug = '';
+      const user = await this.userRespository.save(createdUser);
 
-      await this.userRespository.save(createdUser);
+      await this.userRespository.update(user.id, {
+        slug: slugify(
+          user.firstName + ' ' + user.lastName + ' 0' + user.id,
+          '_',
+        ),
+      });
     } catch (e) {
       status = {
         success: false,
-        message: e,
+        message: e.message,
       };
     }
 
