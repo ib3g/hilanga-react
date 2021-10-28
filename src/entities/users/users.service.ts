@@ -13,7 +13,12 @@ export class UsersService {
     @InjectRepository(User) private readonly userRespository: Repository<User>,
   ) {}
 
-  async register(data: CreateUserDto): Promise<RegistrationStatus> {
-    return this.authService.register(data);
+  async register(
+    data: CreateUserDto,
+    currentUser?: Express.User,
+  ): Promise<RegistrationStatus> {
+    let userDto = { ...data };
+    userDto.manager = currentUser;
+    return this.authService.register(userDto, []);
   }
 }

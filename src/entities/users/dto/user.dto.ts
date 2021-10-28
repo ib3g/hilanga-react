@@ -6,5 +6,7 @@ export class UserDto {
   @IsNotEmpty() lastName: string;
   @IsNotEmpty() role: string[];
   @IsString() phone: string;
+  @IsString() slug: string;
   @IsNotEmpty() @IsEmail() email: string;
+  manager?: UserDto;
 }

@@ -8,4 +8,5 @@ export class CreateUserDto {
   @IsNotEmpty() role: string[];
   @IsString() phone: string;
   @IsString() slug: string;
+  manager?: Express.User | null;
 }

@@ -26,11 +26,9 @@ export class AuthService {
   async register(
     data: CreateUserDto,
     additionalRoles?: string[],
-    addManager?: boolean,
   ): Promise<RegistrationStatus> {
     // init proprieties
     additionalRoles = additionalRoles?.length ? additionalRoles : [];
-    addManager = addManager ? addManager : false;
 
     let status: RegistrationStatus = {
       success: true,
@@ -93,16 +91,6 @@ export class AuthService {
     const user = await this.userRespository.findOne(condition);
 
     return toUserDto(user);
-  }
-
-  async getCurrentUser(cookie: string): Promise<UserDto> {
-    const data = await this.jwtService.verifyAsync(cookie);
-
-    if (!data) {
-      throw new UnauthorizedException();
-    }
-
-    return await this.findOne({ email: data['email'] });
   }
 
   async validateUser(payload: JwtPayload): Promise<UserDto> {
