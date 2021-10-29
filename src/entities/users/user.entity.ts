@@ -3,6 +3,7 @@ import {
   Entity,
   ManyToOne,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
@@ -56,8 +57,8 @@ export class User extends Timestamp {
   manager: User;
 
   @ApiProperty()
-  @OneToMany(() => Qrcode, (qrCode) => qrCode.user)
-  qrCodes: Qrcode[];
+  @OneToOne(() => Qrcode, (qrCode) => qrCode.owner)
+  qrCode: Qrcode;
 
   @ApiProperty()
   @OneToMany(() => Place, (place) => place.manager)

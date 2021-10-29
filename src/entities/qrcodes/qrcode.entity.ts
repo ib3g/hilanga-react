@@ -1,21 +1,18 @@
 import {
   Column,
-  CreateDateColumn,
   Entity,
-  ManyToOne,
+  JoinColumn,
+  OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { User } from '../users/user.entity';
+import { Timestamp } from '../../utils/timestamp';
 
 @Entity('QrCode')
-export class Qrcode {
+export class Qrcode extends Timestamp {
   @PrimaryGeneratedColumn()
   id: number;
-
-  @ApiProperty()
-  @Column()
-  slug: string;
 
   @ApiProperty()
   @Column()
@@ -30,24 +27,15 @@ export class Qrcode {
   qrcodeImgUrl: string;
 
   @ApiProperty()
-  @CreateDateColumn()
-  createdAt: {
-    type: Date;
-    required: true;
-  };
+  @Column({ type: 'date', nullable: true })
+  affectedAt: Date;
 
   @ApiProperty()
-  @CreateDateColumn()
-  affectedAt: {
-    type: Date;
-  };
+  @Column({ type: 'date', nullable: true })
+  printedAt: Date;
 
   @ApiProperty()
-  @CreateDateColumn()
-  printedAt: {
-    type: Date;
-  };
-
-  @ManyToOne(() => User, (user) => user.qrCodes)
-  user: User;
+  @OneToOne(() => User, (user) => user.qrCode)
+  @JoinColumn()
+  owner: User;
 }
