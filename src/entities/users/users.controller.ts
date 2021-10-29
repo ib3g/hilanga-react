@@ -1,4 +1,14 @@
-import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+  Req,
+  UseGuards,
+} from '@nestjs/common';
 import { UsersService } from './users.service';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './user.entity';
@@ -19,23 +29,40 @@ export class UsersController {
   @UseGuards(AuthGuard())
   async getAllUserForConnectedManager(@Req() req: Request) {
     let users = [];
-    const usersDb = await this.userRespository.find({
+    const usersFromDb = await this.userRespository.find({
       where: { manager: req.user },
       relations: ['manager', 'qrCodes'],
     });
-    usersDb.map((userDb) => {
-      let user = toUserDto(userDb);
-      user.manager = user.manager ? toUserDto(userDb.manager) : null;
+    usersFromDb.map((userFromDb) => {
+      let user = toUserDto(userFromDb);
+      user.manager = user.manager ? toUserDto(userFromDb.manager) : null;
       users.push(user);
     });
 
     return users;
   }
 
-  @Post('register')
+  @Post('registerUser')
   @UseGuards(AuthGuard())
-  async register(@Body() data: CreateUserDto, @Req() req: Request) {
-    const currentUser = req.user;
-    return this.userService.register(data, currentUser);
+  async registerUser(@Body() data: CreateUserDto, @Req() req: Request) {
+    return this.userService.registerUser(data, req.user);
+  }
+
+  @Put('updateUser/:slug')
+  @UseGuards(AuthGuard())
+  async updateUser(@Body() data: CreateUserDto, @Param('slug') slug: string) {
+    return this.userService.updateUser(data, slug);
+  }
+
+  @Delete('deleteUser/:slug')
+  @UseGuards(AuthGuard())
+  async deleteUser(@Param('slug') slug: string, @Req() req: Request) {
+    return this.userService.deleteUser(slug, req.user);
+  }
+
+  @Get('restoreUser/:slug')
+  @UseGuards(AuthGuard())
+  async restoreUser(@Param('slug') slug: string, @Req() req: Request) {
+    return this.userService.restoreUser(slug, req.user);
   }
 }

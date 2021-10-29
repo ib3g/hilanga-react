@@ -1,6 +1,5 @@
 import {
   Column,
-  CreateDateColumn,
   Entity,
   ManyToOne,
   OneToMany,
@@ -19,6 +18,10 @@ export class User extends Timestamp {
   @ApiProperty()
   @Column()
   slug: string;
+
+  @ApiProperty()
+  @Column({ nullable: true })
+  birthDay: Date;
 
   @ApiProperty()
   @Column()

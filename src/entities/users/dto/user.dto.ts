@@ -8,5 +8,6 @@ export class UserDto {
   @IsString() phone: string;
   @IsString() slug: string;
   @IsNotEmpty() @IsEmail() email: string;
+  birthDay: Date | null;
   manager?: UserDto;
 }

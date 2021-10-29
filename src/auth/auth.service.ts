@@ -12,7 +12,7 @@ import { JwtService } from '@nestjs/jwt';
 import { CreateUserDto } from '../entities/users/dto/create-user.dto';
 import { toUserDto } from '../mapper';
 import { UserDto } from '../entities/users/dto/user.dto';
-import { RegistrationStatus } from './interface/registration-status.interface';
+import { ResponseStatus } from './interface/response-status.interface';
 import { JwtPayload } from './interface/jwt-payload.interface';
 import slugify from 'slugify';
 
@@ -23,17 +23,7 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async register(
-    data: CreateUserDto,
-    additionalRoles?: string[],
-  ): Promise<RegistrationStatus> {
-    // init proprieties
-    additionalRoles = additionalRoles?.length ? additionalRoles : [];
-
-    let status: RegistrationStatus = {
-      success: true,
-      message: 'user registered',
-    };
+  async checkIfUserExist(data) {
     // check if the user exists in the db by email
     const userWithEmail = await this.userRespository.findOne({
       where: { email: data.email },
@@ -47,6 +37,21 @@ export class AuthService {
     if (userWithEmail || userWithPhone) {
       throw new ConflictException('User already exists');
     }
+  }
+
+  async register(
+    data: CreateUserDto,
+    additionalRoles?: string[],
+  ): Promise<ResponseStatus> {
+    // init proprieties
+    additionalRoles = additionalRoles?.length ? additionalRoles : [];
+
+    let status: ResponseStatus = {
+      success: true,
+      message: 'user registered',
+    };
+
+    await this.checkIfUserExist(data);
 
     try {
       const hashPassword = await bcrypt.hash(data.password, 12);
