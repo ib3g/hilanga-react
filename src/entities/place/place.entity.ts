@@ -1,6 +1,5 @@
 import {
   Column,
-  CreateDateColumn,
   Entity,
   ManyToOne,
   OneToMany,
@@ -9,9 +8,10 @@ import {
 import { ApiProperty } from '@nestjs/swagger';
 import { User } from '../users/user.entity';
 import { Entry } from '../entry/entry.entity';
+import { Timestamp } from '../../utils/timestamp';
 
 @Entity('Place')
-export class Place {
+export class Place extends Timestamp {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -24,34 +24,20 @@ export class Place {
   name: string;
 
   @ApiProperty()
-  @CreateDateColumn()
-  created_at: {
-    type: Date;
-  };
+  @Column({ type: 'datetime' })
+  start: Date;
 
   @ApiProperty()
-  @CreateDateColumn()
-  start: {
-    type: Date;
-  };
+  @Column({ type: 'datetime' })
+  breakStart: Date;
 
   @ApiProperty()
-  @CreateDateColumn()
-  breakStart: {
-    type: Date;
-  };
+  @Column({ type: 'datetime' })
+  breakEnd: Date;
 
   @ApiProperty()
-  @CreateDateColumn()
-  breakEnd: {
-    type: Date;
-  };
-
-  @ApiProperty()
-  @CreateDateColumn()
-  end: {
-    type: Date;
-  };
+  @Column({ type: 'datetime' })
+  end: Date;
 
   @ManyToOne(() => User, (user) => user.places)
   manager: User;

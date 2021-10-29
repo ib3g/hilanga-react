@@ -27,7 +27,7 @@ export class UsersController {
 
   @Get()
   @UseGuards(AuthGuard())
-  async getAllUserForConnectedManager(@Req() req: Request) {
+  async getAllUsersForConnectedManager(@Req() req: Request) {
     let users = [];
     const usersFromDb = await this.userRespository.find({
       where: { manager: req.user },
