@@ -1,7 +1,10 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Qrcode } from './qrcode.entity';
+import * as Str from '@supercharge/strings';
+import * as QRCodeGenerator from 'qrcode';
+import { User } from '../users/user.entity';
 
 @Injectable()
 export class QrcodesService {
@@ -10,21 +13,37 @@ export class QrcodesService {
     private readonly qrcodeRepository: Repository<Qrcode>,
   ) {}
 
-  async create(qrCode: any): Promise<Qrcode> {
-    return this.qrcodeRepository.save(qrCode);
+  async create(user: User): Promise<Qrcode> {
+    try {
+      let qrcode = new Qrcode();
+      const random = Str.random();
+      const code = random + '_' + new Date().getTime();
+      const url = await QRCodeGenerator.toDataURL(code);
+
+      // generate a unique code
+      let str = user.firstName + ' ' + user.lastName;
+      let matches = str.match(/\b(\w)/g); // ['J','S','O','N']
+      let acronym = matches.join(''); // JSON
+      qrcode.code = (acronym + '0' + user.id).toUpperCase();
+
+      qrcode.qrcode = code;
+      qrcode.qrcodeImgUrl = url;
+      qrcode.owner = user;
+
+      await this.qrcodeRepository.save(qrcode);
+
+      return qrcode;
+    } catch (e) {
+      return e.message;
+    }
   }
 
-  async update(data: any): Promise<Qrcode> {
-    const qrCode = await this.qrcodeRepository.findOne(data.id);
+  async update(user: User): Promise<Qrcode> {
+    // delete user old Qrcode before gnerating a new one
+    // then use the create methods to generate a new qrcode for the user
 
-    if (!qrCode) {
-      throw new BadRequestException('invalide qrCode');
-    }
-
-    await this.qrcodeRepository.update({ id: qrCode.id }, data);
+    const qrCode = this.create(user);
 
     return qrCode;
   }
-
-  async delete(qrCode: any): Promise<any> {}
 }

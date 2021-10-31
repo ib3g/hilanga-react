@@ -23,8 +23,8 @@ export class Qrcode extends Timestamp {
   qrcode: string;
 
   @ApiProperty()
-  @Column()
-  qrcodeImgUrl: string;
+  @Column({ type: 'longtext' })
+  qrcodeImgUrl;
 
   @ApiProperty()
   @Column({ type: 'date', nullable: true })

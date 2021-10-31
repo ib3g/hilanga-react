@@ -1,4 +1,5 @@
 import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
+import { Qrcode } from '../../qrcodes/qrcode.entity';
 
 export class UserDto {
   @IsNotEmpty() id: number;
@@ -10,4 +11,5 @@ export class UserDto {
   @IsNotEmpty() @IsEmail() email: string;
   birthDay: Date | null;
   manager?: UserDto;
+  qrCode?: Qrcode;
 }

@@ -15,12 +15,14 @@ import { UserDto } from '../entities/users/dto/user.dto';
 import { ResponseStatus } from './interface/response-status.interface';
 import { JwtPayload } from './interface/jwt-payload.interface';
 import slugify from 'slugify';
+import { QrcodesService } from '../entities/qrcodes/qrcodes.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     @InjectRepository(User) private readonly userRespository: Repository<User>,
     private jwtService: JwtService,
+    private qrcodesService: QrcodesService,
   ) {}
 
   async checkIfUserExist(data) {
@@ -62,6 +64,9 @@ export class AuthService {
       createdUser.slug = '';
       const user = await this.userRespository.save(createdUser);
 
+      // generate qrCode
+      const qrcode = await this.qrcodesService.create(user);
+
       await this.userRespository.update(user.id, {
         slug: slugify(
           user.firstName + ' ' + user.lastName + ' 0' + user.id,
@@ -94,6 +99,10 @@ export class AuthService {
 
   async findOne(condition: any): Promise<UserDto> {
     const user = await this.userRespository.findOne(condition);
+
+    if (!user) {
+      return null;
+    }
 
     return toUserDto(user);
   }

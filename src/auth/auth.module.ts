@@ -7,11 +7,13 @@ import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { JwtStrategy } from './strategy/jwt.strategy';
 import * as dotenv from 'dotenv';
+import { Qrcode } from '../entities/qrcodes/qrcode.entity';
+import { QrcodesService } from '../entities/qrcodes/qrcodes.service';
 
 dotenv.config();
 @Module({
   imports: [
-    TypeOrmModule.forFeature([User]),
+    TypeOrmModule.forFeature([User, Qrcode]),
     PassportModule.register({
       defaultStrategy: 'jwt',
     }),
@@ -23,7 +25,7 @@ dotenv.config();
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, JwtStrategy],
+  providers: [AuthService, JwtStrategy, QrcodesService],
   exports: [PassportModule, JwtModule, AuthModule],
 })
 export class AuthModule {}
