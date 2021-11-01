@@ -7,47 +7,40 @@ import {
 } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { User } from '../users/user.entity';
-import { userInfo } from 'os';
 import { Place } from '../place/place.entity';
+import { Timestamp } from '../../utils/timestamp';
 
 @Entity('Entry')
-export class Entry {
+export class Entry extends Timestamp {
   @PrimaryGeneratedColumn()
   id: number;
 
   @ApiProperty()
-  @CreateDateColumn()
-  day: {
-    type: Date;
-  };
+  @CreateDateColumn({
+    update: false,
+  })
+  day: Date;
 
   @ApiProperty()
-  @CreateDateColumn()
-  start: {
-    type: Date;
-  };
+  @Column({ type: 'datetime', default: null, nullable: true })
+  start: Date;
+  @ApiProperty()
+  @Column({ type: 'datetime', default: null, nullable: true })
+  breakStart: Date;
 
   @ApiProperty()
-  @CreateDateColumn()
-  breakStart: {
-    type: Date;
-  };
+  @Column({ type: 'datetime', default: null, nullable: true })
+  breakEnd: Date;
 
   @ApiProperty()
-  @CreateDateColumn()
-  breakEnd: {
-    type: Date;
-  };
+  @Column({ type: 'datetime', default: null, nullable: true })
+  end: Date;
 
   @ApiProperty()
-  @CreateDateColumn()
-  end: {
-    type: Date;
-  };
-
   @ManyToOne(() => Place, (place) => place.entries)
   place: Place;
 
+  @ApiProperty()
   @ManyToOne(() => User)
   user: User;
 }

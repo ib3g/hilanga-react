@@ -39,9 +39,11 @@ export class Place extends Timestamp {
   @Column({ type: 'datetime' })
   end: Date;
 
+  @ApiProperty()
   @ManyToOne(() => User, (user) => user.places)
   manager: User;
 
+  @ApiProperty()
   @OneToMany(() => Entry, (entry) => entry.place)
   entries: Entry[];
 }

@@ -31,7 +31,7 @@ export class UsersController {
     let users = [];
     const usersFromDb = await this.userRespository.find({
       where: { manager: req.user },
-      relations: ['manager', 'qrCodes'],
+      relations: ['manager', 'qrCode'],
     });
     usersFromDb.map((userFromDb) => {
       let user = toUserDto(userFromDb);

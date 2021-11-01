@@ -97,18 +97,37 @@ export class AuthService {
     return this.jwtService.sign({ email: user.email });
   }
 
-  async findOne(condition: any): Promise<UserDto> {
-    const user = await this.userRespository.findOne(condition);
+  async findOneDto(condition: any): Promise<UserDto> {
+    const user = await this.findOne(condition);
 
     if (!user) {
       return null;
     }
 
-    return toUserDto(user);
+    const userDto = toUserDto(user);
+    userDto.manager = user.manager ? toUserDto(user.manager) : null;
+
+    return userDto;
+  }
+
+  async findOne(condition: any): Promise<User> {
+    try {
+      const user = await this.userRespository.findOne(condition, {
+        relations: ['qrCode', 'manager'],
+      });
+
+      if (!user) {
+        return null;
+      }
+
+      return user;
+    } catch (e) {
+      return e.message;
+    }
   }
 
   async validateUser(payload: JwtPayload): Promise<UserDto> {
-    const user = await this.findOne(payload);
+    const user = await this.findOneDto(payload);
     if (!user) {
       throw new UnauthorizedException('Invalid token');
     }
