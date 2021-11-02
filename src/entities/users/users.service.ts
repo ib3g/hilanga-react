@@ -16,7 +16,13 @@ export class UsersService {
   ) {}
 
   getUser(criteria, options = null) {
-    return this.userRespository.findOne(criteria, options);
+    const user = this.userRespository.findOne(criteria, options);
+
+    if (!user) {
+      return null;
+    }
+
+    return user;
   }
 
   async registerUser(
@@ -76,6 +82,13 @@ export class UsersService {
           relations: ['manager'],
         },
       );
+
+      if (!userToDelete) {
+        return {
+          success: false,
+          message: "Opérations non effectuée, cet utiliateur n'existe pas !",
+        };
+      }
 
       if (userToDelete.manager.email === currentUser.email) {
         await this.userRespository.softDelete({ slug: slug });

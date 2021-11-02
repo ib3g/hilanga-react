@@ -6,6 +6,8 @@ import { User } from './entities/users/user.entity';
 import { AuthModule } from './auth/auth.module';
 import { PlaceModule } from './entities/place/place.module';
 import { EntryModule } from './entities/entry/entry.module';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
 
 @Module({
   imports: [
@@ -29,5 +31,7 @@ import { EntryModule } from './entities/entry/entry.module';
     PlaceModule,
     EntryModule,
   ],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}

@@ -6,6 +6,7 @@ import { ResponseStatus } from '../../auth/interface/response-status.interface';
 import { Entry } from './entry.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { User } from '../users/user.entity';
 
 @Injectable()
 export class EntryService {
@@ -44,11 +45,7 @@ export class EntryService {
     }
 
     // if user has a entry today
-    let userEntries = await this.entryRepository.find({
-      // day: new Date(),
-      user: user,
-      place: place,
-    });
+    let userEntries = await this.getUserEntriesInPlace(user, place);
 
     let entryOfTheDay = userEntries.filter((entry) => {
       return (
@@ -84,6 +81,10 @@ export class EntryService {
     }
 
     return status;
+  }
+
+  async getUserEntriesInPlace(user: User, place: Place) {
+    return await this.entryRepository.find({ user: user, place: place });
   }
 
   updateTime(entry: Entry, time) {
