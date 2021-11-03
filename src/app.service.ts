@@ -8,6 +8,7 @@ import { Qrcode } from './entities/qrcodes/qrcode.entity';
 import * as Str from '@supercharge/strings';
 import * as QRCodeGenerator from 'qrcode';
 import { Place } from './entities/place/place.entity';
+import { Entry } from './entities/entry/entry.entity';
 
 @Injectable()
 export class AppService {
@@ -29,6 +30,7 @@ export class AppService {
     await this.fakeIt('User');
     await this.fakeIt('QrCode');
     await this.fakeIt('Place');
+    await this.fakeIt('Entry');
   }
 
   async fakeIt(entityType: string): Promise<void> {
@@ -53,6 +55,8 @@ export class AppService {
           Place,
           (data: Place[]) => (this.places = data),
         );
+      case 'Entry':
+        return await this.addData(this.entryData(), Entry);
       default:
         break;
     }
@@ -195,33 +199,69 @@ export class AppService {
     });
   }
 
-  // private entryData(): Array<Partial<Entry>> {
-  //   const places = this.places;
-  //   const users = this.users;
-  //   let entries: Array<Partial<Entry>> = [];
-  //
-  //     Array.from({ length: 100 }).map((value, index) => {
-  //     places.map((place) => {
-  //       users.map((user) => {
-  //         if (place.manager.slug === user.manager.slug) {
-  //
-  //
-  //           entries.push({
-  //               day:,
-  //               start:,
-  //               breakStart:,
-  //               breakEnd:,
-  //               end:,
-  //               place:,
-  //               user:
-  //           })
-  //         }
-  //       });
-  //     });
-  //   });
-  //
-  //     return entries;
-  // }
+  private entryData(): Array<Partial<Entry>> {
+    const places = this.places;
+    const users = this.users;
+    let entries: Array<Partial<Entry>> = [];
+
+    Array.from({ length: 100 }).map(() => {
+      places.map((place) => {
+        users.map((user) => {
+          if (place.manager.slug === user.manager.slug) {
+            const day = Faker.random.arrayElement([
+              1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
+              20, 21, 22, 23, 24, 25, 26, 27, 28,
+            ]);
+            const year = Faker.random.arrayElement([
+              place.createdAt.getFullYear(),
+              place.createdAt.getFullYear() + 1,
+              place.createdAt.getFullYear() + 2,
+              place.createdAt.getFullYear() + 3,
+            ]);
+            const month = Faker.random.arrayElement([
+              0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11,
+            ]);
+
+            entries.push({
+              day: new Date(year, month, day),
+              start: new Date(
+                year,
+                month,
+                day,
+                Faker.random.arrayElement([6, 7, 8, 9]),
+                Faker.random.arrayElement([0, 15, 20, 30, 45]),
+              ),
+              breakStart: new Date(
+                year,
+                month,
+                day,
+                Faker.random.arrayElement([10, 11, 12]),
+                Faker.random.arrayElement([0, 15, 20, 30, 45]),
+              ),
+              breakEnd: new Date(
+                year,
+                month,
+                day,
+                Faker.random.arrayElement([13, 14, 15]),
+                Faker.random.arrayElement([0, 15, 20, 30, 45]),
+              ),
+              end: new Date(
+                year,
+                month,
+                day,
+                Faker.random.arrayElement([17, 18, 19, 20]),
+                Faker.random.arrayElement([0, 15, 20, 30, 45]),
+              ),
+              place: place,
+              user: user,
+            });
+          }
+        });
+      });
+    });
+
+    return entries;
+  }
 
   private async addData(
     data: Array<Partial<any>>,
