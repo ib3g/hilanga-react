@@ -1,7 +1,7 @@
 import { CreateDateColumn, DeleteDateColumn, UpdateDateColumn } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 
-export class Timestamp {
+export class EntityTimestamp {
   @ApiProperty()
   @CreateDateColumn({
     update: false,

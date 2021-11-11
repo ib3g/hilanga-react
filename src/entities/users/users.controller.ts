@@ -16,7 +16,7 @@ import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { Request } from 'express';
-import { toUserDto } from '../../mapper';
+import { toUserDto } from '../../utils/mapper';
 
 @Controller('users')
 export class UsersController {

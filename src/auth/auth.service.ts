@@ -10,7 +10,7 @@ import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { CreateUserDto } from '../entities/users/dto/create-user.dto';
-import { toUserDto } from '../mapper';
+import { toUserDto } from '../utils/mapper';
 import { UserDto } from '../entities/users/dto/user.dto';
 import { ResponseStatus } from './interface/response-status.interface';
 import { JwtPayload } from './interface/jwt-payload.interface';

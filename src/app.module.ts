@@ -8,6 +8,8 @@ import { PlaceModule } from './entities/place/place.module';
 import { EntryModule } from './entities/entry/entry.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { StatisticsModule } from './statistics/statistics.module';
+import { FixturesModule } from './fixtures/fixtures.module';
 
 @Module({
   imports: [
@@ -30,6 +32,8 @@ import { AppService } from './app.service';
     AuthModule,
     PlaceModule,
     EntryModule,
+    StatisticsModule,
+    FixturesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

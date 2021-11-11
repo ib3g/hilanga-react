@@ -8,10 +8,10 @@ import {
 import { ApiProperty } from '@nestjs/swagger';
 import { User } from '../users/user.entity';
 import { Entry } from '../entry/entry.entity';
-import { Timestamp } from '../../utils/timestamp';
+import { EntityTimestamp } from '../../utils/entityTimestamp';
 
 @Entity('Place')
-export class Place extends Timestamp {
+export class Place extends EntityTimestamp {
   @PrimaryGeneratedColumn()
   id: number;
 

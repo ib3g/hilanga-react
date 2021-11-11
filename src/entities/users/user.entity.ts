@@ -9,10 +9,10 @@ import {
 import { ApiProperty } from '@nestjs/swagger';
 import { Qrcode } from '../qrcodes/qrcode.entity';
 import { Place } from '../place/place.entity';
-import { Timestamp } from '../../utils/timestamp';
+import { EntityTimestamp } from '../../utils/entityTimestamp';
 
 @Entity('Users')
-export class User extends Timestamp {
+export class User extends EntityTimestamp {
   @PrimaryGeneratedColumn()
   id: number;
 

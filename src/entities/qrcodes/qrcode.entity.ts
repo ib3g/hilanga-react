@@ -7,10 +7,10 @@ import {
 } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { User } from '../users/user.entity';
-import { Timestamp } from '../../utils/timestamp';
+import { EntityTimestamp } from '../../utils/entityTimestamp';
 
 @Entity('QrCode')
-export class Qrcode extends Timestamp {
+export class Qrcode extends EntityTimestamp {
   @PrimaryGeneratedColumn()
   id: number;
 
