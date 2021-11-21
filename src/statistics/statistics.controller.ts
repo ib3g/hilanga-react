@@ -1,10 +1,18 @@
-import { Controller, Get, Param, Req, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Req,
+  UseGuards,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../entities/users/user.entity';
 import { Repository } from 'typeorm';
 import { StatisticsService } from './statistics.service';
 import { AuthGuard } from '@nestjs/passport';
-import { Request } from 'express';
+import { statsParamsDto } from './dto/statsParams.dto';
 
 @Controller('statistics')
 export class StatisticsController {
@@ -13,13 +21,18 @@ export class StatisticsController {
     private readonly statisticsService: StatisticsService,
   ) {}
 
-  @Get('/:placeSlug/getAll')
+  @Post('/:placeSlug')
   @UseGuards(AuthGuard())
   async getAllStats(
-    @Req() req: Request,
+    @Body() data: statsParamsDto,
     @Param('placeSlug') placeSulg: string,
   ) {
-    return this.statisticsService.getAllStats(placeSulg);
+    return this.statisticsService.getStats(
+      placeSulg,
+      data.userSlug,
+      data.dateStart,
+      data.dateEnd,
+    );
   }
 
   getStatsByDay() {}

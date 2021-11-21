@@ -16,27 +16,14 @@ export class StatisticsService {
     private readonly entityManager: EntityManager,
   ) {}
 
-  // Place ---------------------------------------
-  // Moyenne des heures
-  // par jour
-  // par mois
-  // par années
-  // Depuis {date}
-  // Entre {date} et {date}
-
-  // TODO faux !! , revoir last valeur obtenu :
-  //  {
-  //     "stats": {
-  //         "starts": "9:08",
-  //         "breakStarts": "6:31",
-  //         "breakEnd": "7:26",
-  //         "ends": "20:47"
-  //     }
-  //  }
-  async getAllStats(slug, userSlug = '') {
+  async getStats(
+    placeSlug: string,
+    userSlug?: string,
+    dateStart?: Date,
+    dateEnd?: Date,
+  ) {
     let user = null;
     let options = {};
-    let stats = {};
 
     if (userSlug) {
       user = await this.userRepository.findOne({ slug: userSlug });
@@ -47,49 +34,39 @@ export class StatisticsService {
     }
 
     let place = await this.placeRepository.findOne(
-      { slug: slug },
+      { slug: placeSlug },
       { relations: ['manager'] },
     );
 
     let entries = [];
-
     if (place) {
-      console.log('place');
       options = { ...options, place: place };
-      entries = await this.entryRepository.find(options);
 
-      if (entries) {
-        let starts = [];
-        let breakStarts = [];
-        let breakEnd = [];
-        let ends = [];
+      entries = await this.entryRepository.find({
+        where: options,
+        relations: ['user', 'place'],
+      });
 
-        entries.map((entry: Entry) => {
-          starts.push(entry.start ? entry.start.getTime() : null);
-          breakStarts.push(
-            entry.breakStart ? entry.breakStart.getTime() : null,
+      if (dateStart && dateEnd) {
+        entries = entries.filter((entry: Entry) => {
+          let entryDate = entry.day;
+          entryDate.setHours(0, 0, 0);
+          return (
+            entryDate >= new Date(dateStart) && entry.day <= new Date(dateEnd)
           );
-          breakEnd.push(entry.breakEnd ? entry.breakEnd.getTime() : null);
-          ends.push(entry.end ? entry.end.getTime() : null);
         });
+      } else if (dateStart && !dateEnd) {
+        entries = entries.filter((entry: Entry) => {
+          return (
+            entry.day.getFullYear() === new Date(dateStart).getFullYear() &&
+            entry.day.getMonth() === new Date(dateStart).getMonth() &&
+            entry.day.getDate() === new Date(dateStart).getDate()
+          );
+        });
+      }
 
-        let avgStart = this.moyenneTimestamps(starts);
-        let avgbreakStarts = this.moyenneTimestamps(breakStarts);
-        let avgbreakEnd = this.moyenneTimestamps(breakEnd);
-        let avgends = this.moyenneTimestamps(ends);
-
-        stats = {
-          ...stats,
-          starts: this.converTimesTampToTimeString(avgStart),
-          breakStarts: this.converTimesTampToTimeString(avgbreakStarts),
-          breakEnd: this.converTimesTampToTimeString(avgbreakEnd),
-          ends: this.converTimesTampToTimeString(avgends),
-        };
-
-        return {
-          stats: stats,
-          success: true,
-        };
+      if (entries.length) {
+        return this.generateStats(entries, dateStart, dateEnd);
       } else {
         return {
           stats: {},
@@ -105,11 +82,41 @@ export class StatisticsService {
       };
     }
   }
-  getStatsByDay() {}
-  getStatsByMonth() {}
-  getStatsByYear() {}
-  getStatsFromThisDate() {}
-  getStatsBetweenTheseDates() {}
+
+  generateStats(entries: Entry[], dateStart: Date, dateEnd: Date = null) {
+    let starts = [];
+    let breakStarts = [];
+    let breakEnd = [];
+    let ends = [];
+    let stats = {};
+
+    entries.map((entry: Entry) => {
+      starts.push(entry.start ? entry.start.getTime() : null);
+      breakStarts.push(entry.breakStart ? entry.breakStart.getTime() : null);
+      breakEnd.push(entry.breakEnd ? entry.breakEnd.getTime() : null);
+      ends.push(entry.end ? entry.end.getTime() : null);
+    });
+
+    let avgStart = this.moyenneTimestamps(starts);
+    let avgbreakStarts = this.moyenneTimestamps(breakStarts);
+    let avgbreakEnd = this.moyenneTimestamps(breakEnd);
+    let avgends = this.moyenneTimestamps(ends);
+
+    stats = {
+      ...stats,
+      starts: this.converTimesTampToTimeString(avgStart),
+      breakStarts: this.converTimesTampToTimeString(avgbreakStarts),
+      breakEnd: this.converTimesTampToTimeString(avgbreakEnd),
+      ends: this.converTimesTampToTimeString(avgends),
+    };
+
+    return {
+      dateStart: dateStart,
+      dateEnd: dateEnd,
+      stats: stats,
+      success: true,
+    };
+  }
 
   moyenneTimestamps(timesTamps: number[]) {
     let avg = 0;
@@ -126,10 +133,9 @@ export class StatisticsService {
   }
 
   converTimesTampToTimeString(timesTamp: number) {
-    let date = new Date(timesTamp * 1000);
+    let date = new Date(timesTamp);
     let hours = date.getHours();
     let minutes = '0' + date.getMinutes();
-    let seconds = '0' + date.getSeconds();
 
     return hours + ':' + minutes.substr(-2);
   }
