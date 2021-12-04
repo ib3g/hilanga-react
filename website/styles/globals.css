@@ -1,9 +1,10 @@
 html,
 body {
-  background-color: #f3f7fa;
   padding: 0;
   margin: 0;
-  font-family: -apple-system, 'Montserrat', 'Poppins', Segoe UI, Roboto, Oxygen,
+  background: no-repeat white url("./img/background.svg");
+  background-size: cover;
+  font-family: -apple-system, 'Poppins',BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 

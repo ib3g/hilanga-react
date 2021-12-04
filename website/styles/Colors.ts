@@ -1,28 +1,26 @@
-const red = '#ff7b9e';
-const blue = '#315ae7';
-const lightBlue = '#6483ee';
-const dark = '#000A20';
-const shadow = '#C8CDE0';
-const green = '#00BE86';
+const red = '#FF0000';
+const blackTransparent = 'rgba(0, 0, 0, 0.25)';
+const blueGreenTransparent = 'rgba(234, 245, 248, 0.25)';
+const black = '#000000';
+const blueGreen = '#EAF5F8';
+const gray = '#E5E5E5';
+const green = '#79DD95';
 const white = '#FFFFFF';
-const nuage = '#b7c8f5';
-const lightNuage = '#dfe5f9';
 
 export const palette = {
-  dark,
-  shadow,
-  white,
-  green,
+  blackTransparent,
+  blueGreenTransparent,
+  black,
+  blueGreen,
   red,
-  blue,
-  lightBlue,
-  nuage,
-  lightNuage,
+  gray,
+  green,
+  white,
 };
 
 export default {
   palette,
-  background: palette.lightNuage,
-  primary: palette.dark,
-  disabled: 'rgba(0, 0, 0, 0.3)',
+  primary: palette.black,
+  secondary: palette.blueGreen,
+  disabled: palette.gray,
 };
