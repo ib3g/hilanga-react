@@ -11,10 +11,10 @@ export const Layout = (props: Props) => {
 
   return (
     <Container>
-      <div style={{ marginTop: '32px' }}>
-        <Header />
-        <Container>{children}</Container>
-      </div>
+      <Header />
+      <Container>
+        <div style={{ margin: '32px' }}>{children}</div>
+      </Container>
     </Container>
   );
 };

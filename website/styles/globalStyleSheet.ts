@@ -5,6 +5,7 @@ const _button = {
   margin: '8px',
   padding: '8px',
   borderRadius: '16px',
+  fontFamily: 'Poppins',
   fontStyle: 'normal',
   fontWeight: 'bold',
   fontSize: '16px',
@@ -14,19 +15,60 @@ const _button = {
   textAlign: 'center',
 };
 
-const _boxShadow = '0px 0px 10px rgba(0, 0, 0, 0.25)';
+export const _boxShadow = '0px 0px 10px rgba(0, 0, 0, 0.25)';
 
 export const globalStyleSheet = makeStyles(() => {
   return {
     container: {
       backgroundColor: Colors.palette.gray,
     },
+    row: {
+      display: 'flex',
+      flexDirection: 'row',
+      alignContent: 'center',
+      alignItems: 'center',
+    },
+    column: {
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignContent: 'center',
+      alignItems: 'center',
+    },
+    textBold: {
+      fontFamily: 'Poppins',
+      fontSize: '24px',
+      fontWeight: 'bold',
+      fontStyle: 'normal',
+      lineHeight: '36px',
+    },
   };
 });
 
-export const buttonPrimaryStyle = makeStyles({
-  // @ts-ignore
+export const inputStyle = makeStyles({
   root: {
+    fontFamily: 'Poppins',
+    boxShadow: _boxShadow,
+    borderRadius: '16px',
+    padding: '8px',
+    '& ::before': {
+      border: 'none',
+    },
+    '& .MuiInput-root:hover:not(.Mui-disabled):before': {
+      border: 'none',
+    },
+    '& .MuiInput-root:hover:not(.Mui-disabled):after': {
+      border: 'none',
+    },
+    '& .MuiInput-root::after': {
+      border: 'none',
+    },
+  },
+});
+
+export const buttonStyle = makeStyles({
+  // @ts-ignore
+  primary: {
     ..._button,
     color: Colors.palette.white,
     background: Colors.palette.blackTransparent,
@@ -36,11 +78,8 @@ export const buttonPrimaryStyle = makeStyles({
       background: Colors.palette.blueGreenTransparent,
     },
   },
-});
-
-export const buttonSecondaryStyle = makeStyles({
   // @ts-ignore
-  root: {
+  secondary: {
     ..._button,
     color: Colors.palette.black,
     background: Colors.palette.blueGreenTransparent,
