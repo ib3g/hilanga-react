@@ -1,13 +1,13 @@
-import { Controller, Get, Param, Post, Req, UseGuards } from '@nestjs/common';
-import { EntryService } from './entry.service';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Entry } from './entry.entity';
-import { Repository } from 'typeorm';
-import { Request } from 'express';
-import { Qrcode } from '../qrcodes/qrcode.entity';
-import { Place } from '../place/place.entity';
-import { User } from '../users/user.entity';
-import { AuthGuard } from '@nestjs/passport';
+import {Controller, Get, Param, Post, Req, UseGuards} from '@nestjs/common';
+import {EntryService} from './entry.service';
+import {InjectRepository} from '@nestjs/typeorm';
+import {Entry} from './entry.entity';
+import {Repository} from 'typeorm';
+import {Request} from 'express';
+import {Qrcode} from '../qrcodes/qrcode.entity';
+import {Place} from '../place/place.entity';
+import {User} from '../users/user.entity';
+import {AuthGuard} from '@nestjs/passport';
 
 @Controller('entry')
 export class EntryController {
@@ -23,7 +23,7 @@ export class EntryController {
     private readonly userRepository: Repository<User>,
   ) {}
 
-  @Post('scan/:placeSlug/:qrCode/:time')
+  @Post('Scan/:placeSlug/:qrCode/:time')
   @UseGuards(AuthGuard())
   async scan(
     @Param('placeSlug') placeSlug: string,

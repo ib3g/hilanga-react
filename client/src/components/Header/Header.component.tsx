@@ -1,6 +1,4 @@
 import React from 'react';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import LeaderboardIcon from '@mui/icons-material/Leaderboard';
 import SettingsIcon from '@mui/icons-material/Settings';
@@ -8,10 +6,9 @@ import ListIcon from '@mui/icons-material/List';
 import {Container} from '../Container/Container.component';
 import {styles} from './style';
 import {buttonStyle} from '../../styles/globalStyleSheet';
-import {useRouter} from 'next/router';
+import {Toolbar, Typography} from '@mui/material';
 
 export default function Header() {
-  const router = useRouter();
   const classes = styles();
   const button = buttonStyle();
 

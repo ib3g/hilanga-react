@@ -1,10 +1,10 @@
-import { Injectable } from '@nestjs/common';
-import { User } from '../entities/users/user.entity';
-import { Place } from '../entities/place/place.entity';
-import { InjectRepository } from '@nestjs/typeorm';
-import { EntityManager, Repository } from 'typeorm';
-import { Qrcode } from '../entities/qrcodes/qrcode.entity';
-import { Entry } from '../entities/entry/entry.entity';
+import {Injectable} from '@nestjs/common';
+import {User} from '../entities/users/user.entity';
+import {Place} from '../entities/place/place.entity';
+import {InjectRepository} from '@nestjs/typeorm';
+import {EntityManager, Repository} from 'typeorm';
+import {Qrcode} from '../entities/qrcodes/qrcode.entity';
+import {Entry} from '../entities/entry/entry.entity';
 import slugify from 'slugify';
 import * as Str from '@supercharge/strings';
 import * as Faker from 'faker';
@@ -107,7 +107,7 @@ export class FixturesService {
         firstName: firstname,
         phone: Faker.phone.phoneNumberFormat(),
         password:
-          '$2b$12$U/FJ9jRThDWeu6viiVPnCeQBbjM5I5cfNd5929ly6Lx1Y1MlGuTRC',
+          '$2b$12$U/FJ9jRThDWeu6viiVPnCeQBbjM5I5cfNd5929ly6Lx1Y1MlGuTRC', // password_1
         birthDay: Faker.random.arrayElement([
           new Date('1995-01-01'),
           new Date('1988-01-01'),
