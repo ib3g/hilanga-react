@@ -1,10 +1,14 @@
-import React, {useState} from 'react';
-import {styles} from './style';
-import {buttonStyle, globalStyleSheet, inputStyle,} from '../../styles/globalStyleSheet';
-import {Button, TextField} from '@mui/material';
+import React, { useState } from 'react';
+import { styles } from './style';
+import {
+  buttonStyle,
+  globalStyleSheet,
+  inputStyle,
+} from '../../styles/globalStyleSheet';
+import { Button, TextField } from '@mui/material';
 import QrReader from 'react-qr-reader';
-import {useNavigate} from 'react-router-dom';
-import {PATHS} from '../../routeConstants';
+import { useNavigate } from 'react-router-dom';
+import { PATHS } from '../../routeConstants';
 
 export const Scanner = () => {
   const navigate = useNavigate();

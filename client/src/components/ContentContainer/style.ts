@@ -1,6 +1,6 @@
 import Colors from '../../styles/Colors';
-import {_boxShadow} from '../../styles/globalStyleSheet';
-import {makeStyles} from '@mui/styles';
+import { _boxShadow } from '../../styles/globalStyleSheet';
+import { makeStyles } from '@mui/styles';
 
 export const styles = makeStyles({
   container: {

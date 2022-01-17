@@ -1,8 +1,8 @@
-import React, {useEffect, useState} from 'react';
-import {styles} from './style';
-import {globalStyleSheet} from '../../styles/globalStyleSheet';
-import {useNavigate} from 'react-router-dom';
-import {Typography} from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { styles } from './style';
+import { globalStyleSheet } from '../../styles/globalStyleSheet';
+import { useNavigate } from 'react-router-dom';
+import { Typography } from '@mui/material';
 
 export const ScannerResponse = () => {
   const navigate = useNavigate();

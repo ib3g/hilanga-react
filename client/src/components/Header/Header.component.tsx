@@ -3,10 +3,10 @@ import Button from '@mui/material/Button';
 import LeaderboardIcon from '@mui/icons-material/Leaderboard';
 import SettingsIcon from '@mui/icons-material/Settings';
 import ListIcon from '@mui/icons-material/List';
-import {Container} from '../Container/Container.component';
-import {styles} from './style';
-import {buttonStyle} from '../../styles/globalStyleSheet';
-import {Toolbar, Typography} from '@mui/material';
+import { Container } from '../Container/Container.component';
+import { styles } from './style';
+import { buttonStyle } from '../../styles/globalStyleSheet';
+import { Toolbar, Typography } from '@mui/material';
 
 export default function Header() {
   const classes = styles();

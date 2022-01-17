@@ -1,6 +1,6 @@
 import React from 'react';
-import {styles} from './style';
-import {ScanButton} from '../ScanButton/ScanButton.component';
+import { styles } from './style';
+import { ScanButton } from '../ScanButton/ScanButton.component';
 
 export const HomeScanContainer = () => {
   const classes = styles();

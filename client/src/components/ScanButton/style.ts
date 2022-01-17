@@ -1,6 +1,6 @@
-import {makeStyles} from '@mui/styles';
+import { makeStyles } from '@mui/styles';
 import Colors from '../../styles/Colors';
-import {_boxShadow} from '../../styles/globalStyleSheet';
+import { _boxShadow } from '../../styles/globalStyleSheet';
 
 export const styles = makeStyles({
   buttonStyle: {

@@ -1,10 +1,10 @@
-import {Injectable} from '@nestjs/common';
-import {User} from '../entities/users/user.entity';
-import {Place} from '../entities/place/place.entity';
-import {InjectRepository} from '@nestjs/typeorm';
-import {EntityManager, Repository} from 'typeorm';
-import {Qrcode} from '../entities/qrcodes/qrcode.entity';
-import {Entry} from '../entities/entry/entry.entity';
+import { Injectable } from '@nestjs/common';
+import { User } from '../entities/users/user.entity';
+import { Place } from '../entities/place/place.entity';
+import { InjectRepository } from '@nestjs/typeorm';
+import { EntityManager, Repository } from 'typeorm';
+import { Qrcode } from '../entities/qrcodes/qrcode.entity';
+import { Entry } from '../entities/entry/entry.entity';
 import slugify from 'slugify';
 import * as Str from '@supercharge/strings';
 import * as Faker from 'faker';

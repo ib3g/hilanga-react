@@ -1,9 +1,9 @@
-import React, {Suspense} from 'react';
-import {Route, Routes} from 'react-router-dom';
+import React, { Suspense } from 'react';
+import { Route, Routes } from 'react-router-dom';
 import Home from './pages/home';
-import {PATHS} from './routeConstants';
+import { PATHS } from './routeConstants';
 import Scan from './pages/scan';
-import {Layout} from './components/Layout/Layout.component';
+import { Layout } from './components/Layout/Layout.component';
 import Response from './pages/scan/response';
 
 export const AppRoutes = () => (

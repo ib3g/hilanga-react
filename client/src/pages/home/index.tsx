@@ -1,5 +1,5 @@
 import React from 'react';
-import {HomeScanContainer} from '../../components/HomeScanContainer/HomeScanContainer.component';
+import { HomeScanContainer } from '../../components/HomeScanContainer/HomeScanContainer.component';
 
 function Home() {
   return <HomeScanContainer />;

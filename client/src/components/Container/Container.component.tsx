@@ -1,5 +1,5 @@
 import React from 'react';
-import {styles} from './style';
+import { styles } from './style';
 
 type Props = {
   children: React.ReactNode | React.ReactNode[];
